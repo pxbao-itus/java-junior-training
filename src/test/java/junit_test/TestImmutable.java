@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestImmutable {
     Student s;
-
     @BeforeAll
     void initStudent() {
         Map<String, String> map = new HashMap<>();
@@ -21,18 +20,19 @@ public class TestImmutable {
         s = new Student("miChaEl OWen", 101, map);
         System.out.println("\nBefore all test case");
     }
-
+    @AfterAll
+    void clearData() {
+        s = null;
+        System.out.println("\nAfter all test case");
+    }
     @BeforeEach
     void setUp() {
         System.out.println("\nBefore test case");
     }
-
     @AfterEach
     void tearDown() {
         System.out.println("After test case");
     }
-
-
     @Test
     @DisplayName("Test case can not change attribute hashmap of student")
     @Order(2)
@@ -41,7 +41,6 @@ public class TestImmutable {
         assertNull(s.getMetadata().get("3"));
         System.out.println("testChangeStudentMetadata is passed");
     }
-
     @Test
     @DisplayName("Test case name of student is formatted before get")
     @Order(1)
@@ -49,13 +48,4 @@ public class TestImmutable {
         assertEquals("Michael Owen", s.getName());
         System.out.println("testNameFormatted is passed");
     }
-
-
-
-    @AfterAll
-    void clearData() {
-        s = null;
-        System.out.println("\nAfter all test case");
-    }
-
 }

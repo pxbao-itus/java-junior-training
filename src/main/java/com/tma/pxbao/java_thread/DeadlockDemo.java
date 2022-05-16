@@ -20,8 +20,6 @@ class Class1 {
 
     }
 }
-
-
 public class DeadlockDemo {
     public static void main(String[] args) {
         Class1 object1 = new Class1();
@@ -44,8 +42,6 @@ public class DeadlockDemo {
                     System.out.println("Thread 1 is done");
                 }
             }
-
-            ;
         };
         Runnable r1 = new Runnable() {
             @Override
@@ -69,7 +65,6 @@ public class DeadlockDemo {
         // submit task to thread pool
         executorService.submit(r1);
         executorService.submit(r2);
-
         executorService.shutdown();
     }
 }
