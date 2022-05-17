@@ -20,7 +20,7 @@ public class ReadWriteLockDemo<T> {
     public T getElement(int i) throws InterruptedException {
         readLock.lock();
         try {
-            System.out.println(Thread.currentThread().getName() + " is getting element");
+            System.out.println(Thread.currentThread().getName() + " is getting element " + i);
             Thread.sleep(1000);
             return (T) list.get(i);
         }
@@ -34,7 +34,7 @@ public class ReadWriteLockDemo<T> {
     public void setElement(T element) throws InterruptedException {
         writeLock.lock();
         try {
-            System.out.println(Thread.currentThread().getName() + " is adding element" + list);
+            System.out.println(Thread.currentThread().getName() + " is adding element ---" + list);
             Thread.sleep(1000);
             list.add(element);
         } finally {
