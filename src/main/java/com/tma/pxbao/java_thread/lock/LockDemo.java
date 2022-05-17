@@ -7,10 +7,11 @@ import java.util.Collections;
 //import java.util.concurrent.locks.Lock;
 
 class Lock {
-    private boolean isLocked;
+    private boolean isLocked = false;
 
     public synchronized void lock() throws InterruptedException {
         while (isLocked) {
+            System.out.println(Thread.currentThread().getName() + " is waiting for lock");
             wait();
         }
         System.out.println(Thread.currentThread().getName() + " is holding lock");
@@ -19,6 +20,7 @@ class Lock {
 
     public synchronized void unlock() {
         if (isLocked) {
+            System.out.println(Thread.currentThread().getName() + " is releasing lock");
             isLocked = false;
             notify();
         }
@@ -57,9 +59,8 @@ class Counter {
 
     public void execution(int[] calculations) throws InterruptedException {
         try {
-            lock.lock();
+//            lock.lock();
             for (int calculation : calculations) {
-                Thread.sleep(1000);
                 switch (calculation) {
                     case 1:
                         this.inc();
@@ -70,7 +71,7 @@ class Counter {
                 }
             }
         } finally {
-            lock.unlock();
+//            lock.unlock();
         }
     }
 
@@ -82,14 +83,14 @@ public class LockDemo {
         Counter counter = new Counter();
         Thread t1 = new Thread(() -> {
             try {
-                counter.execution(new int[]{1, 2, 1});
+                counter.execution(new int[]{1, 2, 1, 2,});
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
         Thread t2 = new Thread(() -> {
             try {
-                counter.execution(new int[]{1, 2, 1, 2});
+                counter.execution(new int[]{2, 2, 2, 1, 1});
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
