@@ -18,19 +18,20 @@ public class SemaphoreDemo {
 
     public <T> Future<T> submit(final Callable<T> task) throws InterruptedException {
 
-        semaphore.acquire();
-        System.out.println("semaphore.acquire()...");
-
         return executor.submit(() -> {
+
+            semaphore.acquire();
+            System.out.println(Thread.currentThread().getName() + " semaphore.acquire()...");
             try {
                 return task.call();
             } finally {
                 semaphore.release();
-                System.out.println("semaphore.release()...");
+                System.out.println(Thread.currentThread().getName() + " semaphore.release()...");
             }
         });
 
     }
+
     public static void main(String[] args) throws InterruptedException {
 
         ExecutorService executor = Executors.newCachedThreadPool();

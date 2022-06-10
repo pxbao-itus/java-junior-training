@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReadWriteLockDemo<T> {
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
     private final Lock readLock = readWriteLock.readLock();
     private final Lock writeLock = readWriteLock.writeLock();
 
@@ -19,6 +19,7 @@ public class ReadWriteLockDemo<T> {
 
     public T getElement(int i) throws InterruptedException {
         readLock.lock();
+        System.out.println("Hold read lock");
         try {
             System.out.println(Thread.currentThread().getName() + " is getting element " + i);
             Thread.sleep(1000);
@@ -27,17 +28,20 @@ public class ReadWriteLockDemo<T> {
         catch (IndexOutOfBoundsException e) {
             return (T) "Index out of boundary";
         }finally {
+            System.out.println("Release read lock");
             readLock.unlock();
         }
     }
 
     public void setElement(T element) throws InterruptedException {
         writeLock.lock();
+        System.out.println("Hold write lock");
         try {
             System.out.println(Thread.currentThread().getName() + " is adding element ---" + list);
             Thread.sleep(1000);
             list.add(element);
         } finally {
+            System.out.println("Release write lock");
             writeLock.unlock();
         }
     }
@@ -70,6 +74,7 @@ public class ReadWriteLockDemo<T> {
         };
 
         new Thread(readRunnable).start();
+        new Thread(writeRunnable).start();
         new Thread(writeRunnable).start();
         new Thread(readRunnable).start();
 

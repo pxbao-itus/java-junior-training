@@ -1,7 +1,7 @@
 package com.tma.pxbao.java_thread;
 
 class number {
-    protected long number = 0;
+    protected long  number = 0;
 
     public void add(long value) {
         this.number = this.number + value;

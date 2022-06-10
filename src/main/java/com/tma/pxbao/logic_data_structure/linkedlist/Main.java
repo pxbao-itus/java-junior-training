@@ -1,11 +1,17 @@
 package com.tma.pxbao.logic_data_structure.linkedlist;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
 
-        // Demo for LinkedList has String element
+//         Demo for LinkedList has String element
         System.out.println("Linked List String demo");
         LinkedList<String> linkedList = new LinkedList<>();
+
 
         // Add node to list
         LinkedList.add(linkedList,"Math");

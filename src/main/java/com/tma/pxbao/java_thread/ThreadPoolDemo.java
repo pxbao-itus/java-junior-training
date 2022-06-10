@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadPoolDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Runnable r1 = new Runnable() {
             @Override
             public void run() {
@@ -35,5 +35,7 @@ public class ThreadPoolDemo {
         executorService.submit(r3);
 
         executorService.shutdown();
+
+
     }
 }

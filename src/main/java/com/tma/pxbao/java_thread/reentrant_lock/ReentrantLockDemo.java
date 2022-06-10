@@ -22,6 +22,11 @@ class ExtendReentrantLock extends ReentrantLock {
 
     @Override
     public synchronized boolean tryLock() {
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
         while (isLocked && Thread.currentThread() != lockedBy) {
             try {
                 System.out.println(Thread.currentThread().getName() + " is waiting lock");
@@ -35,9 +40,12 @@ class ExtendReentrantLock extends ReentrantLock {
         lockCount++;
         return true;
     }
-
+//    public  void lock2() {
+//        System.out.println("Lock 2");
+//    }
     @Override
     public synchronized void lock() {
+
         while (isLocked && Thread.currentThread() != lockedBy) {
             try {
                 this.wait();
@@ -64,7 +72,7 @@ class ExtendReentrantLock extends ReentrantLock {
 }
 
 public class ReentrantLockDemo implements Runnable {
-    private final ExtendReentrantLock re = new ExtendReentrantLock(false);
+    private final ExtendReentrantLock re = new ExtendReentrantLock();
 
     private List<String> list = new ArrayList<>();
 
@@ -76,6 +84,9 @@ public class ReentrantLockDemo implements Runnable {
         list.add("five");
     }
 
+//    public void runLock2(){
+//        re.lock2();
+//    }
     @Override
     public void run() {
         if (re.tryLock()) {
@@ -126,5 +137,13 @@ class Main {
         executorService.execute(reentrantLockDemo);
         executorService.execute(reentrantLockDemo);
         executorService.execute(reentrantLockDemo);
+
+//        Thread t1 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                reentrantLockDemo.runLock2();
+//            }
+//        });
+//        t1.start();
     }
 }
